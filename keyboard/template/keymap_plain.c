@@ -17,27 +17,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "keymap_common.h"
 #include "keyboard_fn.h"
+#include "user_fn.h"
 
 const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    /* 0: qwerty */
-    KEYMAP_ANSI(
-        GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSPC, \
-        TAB, Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSLS, \
-        CAPS,A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,     ENT,  \
-        LSFT,Z,   X,   C,   V,   B,   N,   M,   COMM,DOT, SLSH,          RSFT, \
-        LCTL,LGUI,LALT,          SPC,                     FN0, RGUI,APP, RCTL),
-    /* 1: Poker Fn */
-    KEYMAP_ANSI(
-        ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, DEL, \
-        FN2,TRNS, UP, TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,CALC,TRNS,HOME,INS, TRNS,  \
-        FN1,LEFT,DOWN,RGHT,TRNS,TRNS,PSCR,SLCK,PAUS,TRNS,TRNS,END,      TRNS, \
-        TRNS,DEL, TRNS,WHOM,MUTE,VOLU,VOLD,TRNS,PGUP,PGDN,DEL,           TRNS, \
-        TRNS,TRNS,TRNS,          TRNS,                     TRNS,TRNS,TRNS,TRNS),
+	KEYMAP_ENC(
+		KC_FN0,  KC_FN1,  KC_FN4,  KC_FN6,  KC_A,  KC_FN5),
+
+    KEYMAP_ENC(
+		KC_TRNS,  KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS),
+
 };
 const action_t fn_actions[] = {
-    /* Poker Layout */
-    ACTION_LAYER_MOMENTARY(1),  // to Fn overlay
-    ACTION_FUNCTION(KEYBOARD_CONTROL), // sleep
-    ACTION_FUNCTION(SWITCH_DEVICE) // switch between usb and ble
+	ACTION_LAYER_TAP(1, KC_NLCK),//fn0  跳到1层
+	ACTION_FUNCTION_OPT(SWITCH_DEVICE, SWITCH_DEVICE_BLE_0),
+	ACTION_FUNCTION_OPT(SWITCH_DEVICE, SWITCH_DEVICE_BLE_1),
+	ACTION_FUNCTION_OPT(SWITCH_DEVICE, SWITCH_DEVICE_BLE_2),
+	ACTION_FUNCTION_OPT(SWITCH_DEVICE, SWITCH_DEVICE_BLE_READV),	//蓝牙广播
+	ACTION_FUNCTION_OPT(SWITCH_DEVICE, SWITCH_DEVICE_BLE_REBOND),	//解绑
+	ACTION_FUNCTION_OPT(SWITCH_DEVICE, SWITCH_DEVICE_USB),			//usb模式
 };
-
