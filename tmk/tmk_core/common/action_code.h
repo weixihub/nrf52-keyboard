@@ -216,8 +216,8 @@ enum mods_codes {
 };
 #define ACTION_KEY(key)                 ACTION(ACT_MODS, (key))
 #define ACTION_MODS(mods)               ACTION(ACT_MODS, ((mods)&0x1f00) | 0)
-#define ACTION_MODS_KEY(mods, key)      ACTION(ACT_MODS, ((mods)&0x1f00) | (key))
-#define ACTION_MODS_TAP_KEY(mods, key)  ACTION(ACT_MODS_TAP, ((mods)&0x1f00) | (key))
+#define ACTION_MODS_KEY(mods, key)      ACTION(ACT_MODS, ((mods)&0x1f00) | (key))       //组合按键 例如Shift + 1 = ！多个修饰符用|连接 ACTION_KEY(MOD_LALT | MOD_LSFT, KC_1)
+#define ACTION_MODS_TAP_KEY(mods, key)  ACTION(ACT_MODS_TAP, ((mods)&0x1f00) | (key))   //长按是后面按键，短按是前面
 #define ACTION_MODS_ONESHOT(mods)       ACTION(ACT_MODS_TAP, ((mods)&0x1f00) | MODS_ONESHOT)
 #define ACTION_MODS_TAP_TOGGLE(mods)    ACTION(ACT_MODS_TAP, ((mods)&0x1f00) | MODS_TAP_TOGGLE)
 
@@ -262,7 +262,7 @@ enum layer_pram_tap_op {
 #define ACTION_DEFAULT_LAYER_TOGGLE(layer)          ACTION_DEFAULT_LAYER_BIT_XOR((layer)/4, 1<<((layer)%4))
 /* Layer Operation */
 #define ACTION_LAYER_CLEAR(on)                      ACTION_LAYER_BIT_AND(0, 0, (on))
-#define ACTION_LAYER_MOMENTARY(layer)               ACTION_LAYER_ON_OFF(layer)
+#define ACTION_LAYER_MOMENTARY(layer)               ACTION_LAYER_ON_OFF(layer)//瞬间切换层（按下切换。抬起返回）
 #define ACTION_LAYER_TOGGLE(layer)                  ACTION_LAYER_INVERT(layer, ON_RELEASE)
 #define ACTION_LAYER_INVERT(layer, on)              ACTION_LAYER_BIT_XOR((layer)/4,   1<<((layer)%4),  (on))
 #define ACTION_LAYER_ON(layer, on)                  ACTION_LAYER_BIT_OR( (layer)/4,   1<<((layer)%4),  (on))
@@ -273,7 +273,7 @@ enum layer_pram_tap_op {
 #define ACTION_LAYER_SET_CLEAR(layer)               ACTION_LAYER_TAP((layer), OP_SET_CLEAR)
 #define ACTION_LAYER_MODS(layer, mods)              ACTION_LAYER_TAP((layer), 0xc0 | ((mods>>8)&0x1f))
 /* With Tapping */
-#define ACTION_LAYER_TAP_KEY(layer, key)            ACTION_LAYER_TAP((layer), (key))
+#define ACTION_LAYER_TAP_KEY(layer, key)            ACTION_LAYER_TAP((layer), (key))//按下是key 长按切换层
 #define ACTION_LAYER_TAP_TOGGLE(layer)              ACTION_LAYER_TAP((layer), OP_TAP_TOGGLE)
 /* Bitwise Operation */
 #define ACTION_LAYER_BIT_AND(part, bits, on)        ACTION_LAYER_BITOP(OP_BIT_AND, (part), (bits), (on))
