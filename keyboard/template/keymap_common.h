@@ -44,14 +44,14 @@ extern const action_t fn_actions[];
 	K20, K21, k23,		\
 	k30, k31, k32, k34, \
 	k41, k42, k43,		\
-	k51, k52, k54		\
+	k51, k52,      k54	\
 ){ 							    	\
-	{ K00, R0N,   R0P,   KC_NO  },	\
-	{ K11, K12,   K13,   K14    },	\
-	{ K20, K21,   k23,   KC_NO  }, 	\
-	{ k30, k31,   k32,   k34    }, 	\
-	{ k41, k42,   k43,   KC_NO  }, 	\
-	{ k51, k52,   KC_NO, k54  	}, 	\
+	{ K00, R0N, R0P,   KC_NO  },	\
+	{ K11, K12, K13,   K14    },	\
+	{ K20, K21, k23,   KC_NO  }, 	\
+	{ k30, k31, k32,   k34    }, 	\
+	{ k41, k42, k43,   KC_NO  }, 	\
+	{ k51, k52, KC_NO, k54    }, 	\
 }
 
 
