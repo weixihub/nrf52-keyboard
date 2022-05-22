@@ -36,11 +36,22 @@ extern const action_t fn_actions[];
  * 第一组为实际布局
  * 第二组为按键实际矩阵
  * 只有一个按键
+ * RON反转 ROP正转（旋钮）
  */
-#define KEYMAP_ENC( \
-	K00, K01, K02, K03, K04, K05\
-) { \
-	{ K00, K01, K02, K03, K04, K05}\
+#define KEYMAP_ENC( 	\
+	K00, R0N, R0P,	 	\
+	K11, K12, K13, K14,	\
+	K20, K21, k23,		\
+	k30, k31, k32, k34, \
+	k41, k42, k43,		\
+	k51, k52, k53		\
+){ 							    	\
+	{ K00, R0N,   R0P,   KC_NO  },	\
+	{ K11, K12,   K13,   K14    },	\
+	{ K20, K21,   k23,   KC_NO  }, 	\
+	{ k30, k31,   k32,   k34    }, 	\
+	{ k41, k42,   k43,   KC_NO  }, 	\
+	{ k51, k52,   k53,   KC_NO  }, 	\
 }
 
 
