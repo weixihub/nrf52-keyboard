@@ -117,14 +117,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MATRIX_COLS 14 /* 硬件阵列列数 */
 // static const uint8_t row_pin_array[MATRIX_ROWS] = { 25, 28, 29, 30, 26 };
 // static const uint8_t column_pin_array[MATRIX_COLS] = { 16, 15, 14, 13, 12, 11, 27, 3, 4, 5, 6, 7, 8, 9 };
-#define MATRIX_ROWS 1 /* 硬件阵列行数 */
-#define MATRIX_COLS 6 /* 硬件阵列列数 */
-static const uint8_t row_pin_array[MATRIX_ROWS] = {25};
-static const uint8_t column_pin_array[MATRIX_COLS] = {26, 27, 28, 29, 30, 31};
+#define MATRIX_ROWS 6 /* 硬件阵列行数 */
+#define MATRIX_COLS 4 /* 硬件阵列列数 */
+static const uint8_t row_pin_array[MATRIX_ROWS] = {23, 22, 18, 17, 16, 20};
+static const uint8_t column_pin_array[MATRIX_COLS] = {24, 19, 15, 14};
 // #define ROW_IN // 键盘阵列的二极管方向是从COL->ROW
-#define COL_IN
+#define ROW_IN
 /* define if matrix has ghost */
-// #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
+#define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
+// 旋钮配置
+#define ROTARY_ENCODER_A 3
+#define ROTARY_ENCODER_B 4
+// 旋钮正向按钮映射
+#define ROTARY_ENCODER_POS 0,1
+// 旋钮负向按钮映射
+#define ROTARY_ENCODER_NEG 0,2
 
 #define DEBOUNCE 5 /* 硬件消抖次数，设置为0则不消抖 */
 #define MATRIX_SCAN_DELAY_CYCLE 36 /* 按键扫描等待IO稳定的延时时长 */
