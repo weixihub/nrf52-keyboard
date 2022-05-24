@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CONF_VENDOR_ID 0x5283 /* 配置协议使用的VendorID */
 #define CONF_PRODUCT_ID 0x0011 /* 配置协议使用的ProductID */
 #define DEVICE_VER 0x0000 /* 硬件版本 */
-#define MANUFACTURER "Vosslab" /* 硬件制造商，用于USB和蓝牙显示 */
-#define PRODUCT "Horror Zoo" /* 硬件名称，用于USB和蓝牙显示 */
+#define MANUFACTURER "HBK_Official" /* 硬件制造商，用于USB和蓝牙显示 */
+#define PRODUCT "HBK_PAD" /* 硬件名称，用于USB和蓝牙显示 */
 // #define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
 
 /* USB HID report parameter */
