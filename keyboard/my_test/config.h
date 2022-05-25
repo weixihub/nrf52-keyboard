@@ -122,9 +122,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 static const uint8_t row_pin_array[MATRIX_ROWS] = {25};
 static const uint8_t column_pin_array[MATRIX_COLS] = {26, 27, 28};
 // #define ROW_IN // 键盘阵列的二极管方向是从COL->ROW
-#define COL_IN
+#define ROW_IN
 /* define if matrix has ghost */
 // #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
+
+// SSD1306 LCD屏幕
+#define SSD1306_SDA 11
+#define SSD1306_SCL 12
 
 #define DEBOUNCE 5 /* 硬件消抖次数，设置为0则不消抖 */
 #define MATRIX_SCAN_DELAY_CYCLE 36 /* 按键扫描等待IO稳定的延时时长 */

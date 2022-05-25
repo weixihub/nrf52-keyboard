@@ -49,7 +49,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_X, KC_C, \
 		KC_VOLD, KC_VOLU ),
 
-	KEYMAP_ENC(
+	KEYMAP_ENC( 
 		KC_ESC, KC_Z, \
 		KC_X, KC_C, \
 		KC_VOLD, KC_VOLU ),
