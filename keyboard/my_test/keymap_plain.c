@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "keymap_common.h"
 #include "keyboard_fn.h"
 #include "user_fn.h"
+// #include "rgb_matrix_types.h"
 
 /* 
  * @brief 按键映射
@@ -45,14 +46,47 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP_ENC(
 		KC_TRNS,   KC_TRNS,  KC_TRNS,
 		KC_FN2,    KC_FN3,   KC_FN4,  KC_FN5,
-		KC_FN8,    KC_TRNS,  KC_TRNS,  
+		KC_FN7,    KC_TRNS,  KC_TRNS,  
 		KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_FN6,
 		KC_TRNS,   KC_TRNS,  KC_TRNS,  
 		KC_TRNS,   KC_TRNS,	 KC_TRNS
 		),
 
 };
-
+// led_config_t g_led_config = {
+//     {
+//         // RGB顺序
+//         { 0 }
+//     },
+//     { 	// RGB物理位置
+//         { 32, 25 }
+// 	 },
+//     { 	// RGB功能标志
+//         4 }
+// };
+// led_config_t g_led_config = {
+//     {
+//         // Key Matrix to LED Index
+//         { 0   ,  1    ,  2     ,  3,       NO_LED },
+//         { 6   ,  5    ,  4     ,  10,      NO_LED},
+//         { 7   ,  8    ,  9     ,  NO_LED,  NO_LED },
+//         { 13  ,  12   ,  11    ,  16    ,  NO_LED },
+//         { 14  ,NO_LED ,  15    ,  NO_LED,  NO_LED },
+//     },
+//     { // LED Index to Physical Position
+//         { 32, 25 }, { 96, 25 }, { 160, 25 }, { 224, 25 }, 
+// 		{ 160, 75 }, { 96, 75 }, { 32, 75 }, 
+// 		{ 32, 125 }, { 96, 125 }, { 160, 125 },   { 204, 105 },
+// 		{ 160, 175 }, { 96, 175 }, { 32, 175 },  
+// 		{ 64, 225 }, { 160, 225 },{ 204, 205 },
+// 	 },
+//     { // LED Index to Flag
+//         255, 4, 4, 4,
+// 		4, 4, 4,
+// 		4, 4, 4, 4,
+// 		4, 4, 4,
+//         4, 4, 4, }
+// };
 const action_t fn_actions[] = {
 	ACTION_MODS_KEY(MOD_LGUI,KC_D),//fn0 老板键回到桌面
 	ACTION_LAYER_TAP(1, KC_NLCK),//fn1  长按跳到1层 短按是nlck

@@ -118,7 +118,8 @@
         "dap.h": "c",
         "nrf_fstorage_nvmc.h": "c",
         "nrf_fstorage_sd.h": "c",
-        "keyboard_command.h": "c"
+        "keyboard_command.h": "c",
+        "rgb_matrix_types.h": "c"
     },
     "C_Cpp.default.includePath": [
         "C:/Program Files (x86)/GNU Tools ARM Embedded/7 2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include",

@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 配置协议使用的VID和PID，自行修改。ID组合不得重复。
 #define CONF_VENDOR_ID 0x5283 /* 配置协议使用的VendorID */
 #define CONF_PRODUCT_ID 0x0011 /* 配置协议使用的ProductID */
-#define DEVICE_VER 0x0000 /* 硬件版本 */
+#define DEVICE_VER 0x0001 /* 硬件版本 */
 #define MANUFACTURER "HBK_Official" /* 硬件制造商，用于USB和蓝牙显示 */
 #define PRODUCT "HBK_PAD" /* 硬件名称，用于USB和蓝牙显示 */
 // #define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
@@ -70,6 +70,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_ONESHOT
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
+
+// ws2812 RGB 配置
+#define RGB_DI_PIN 29
+#define RGBLED_NUM 1
+#define DRIVER_LED_TOTAL RGBLED_NUM
+#define RGBLIGHT_ANIMATIONS
+// #define RGB_PWR_PIN 0 // P-mos
+//#define RGB_PWR_PIN_REVERSE 12 // N-mos
+
+//RGB_MATRIX 配置
+#define RGB_MATRIX_KEYPRESSES // reacts to keypresses
+//#define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)
+#define RGB_MATRIX_FRAMEBUFFER_EFFECTS // enable framebuffer effects
+#define RGB_DISABLE_TIMEOUT 0 // rgb自动关闭时间（毫秒）用于有mos管电路
+#define RGB_DISABLE_AFTER_TIMEOUT 2 // OBSOLETE: number of ticks to wait until disabling effects
+//#define RGB_MATRIX_LED_PROCESS_LIMIT (DRIVER_LED_TOTAL + 4) / 5 // limits the number of LEDs to process in an animation per task run (increases keyboard responsiveness)
+#define RGB_MATRIX_LED_FLUSH_LIMIT 16 // limits in milliseconds how frequently an animation will update the LEDs. 16 (16ms) is equivalent to limiting to 60fps (increases keyboard responsiveness)
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 200 // limits maximum brightness of LEDs to 200 out of 255. If not defined maximum brightness is set to 255
+//#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_CYCLE_LEFT_RIGHT // Sets the default mode, if none has been set
+#define RGB_MATRIX_STARTUP_HUE 0 // Sets the default hue value, if none has been set
+#define RGB_MATRIX_STARTUP_SAT 0 // Sets the default saturation value, if none has been set
+#define RGB_MATRIX_STARTUP_VAL RGB_MATRIX_MAXIMUM_BRIGHTNESS // Sets the default brightness value, if none has been set
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE

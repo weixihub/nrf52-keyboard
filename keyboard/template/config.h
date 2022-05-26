@@ -28,9 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CONF_VENDOR_ID 0x5283 /* 配置协议使用的VendorID */
 #define CONF_PRODUCT_ID 0x1010 /* 配置协议使用的ProductID */
 #define DEVICE_VER 0x0000 /* 硬件版本 */
-#define MANUFACTURER "Vosslab" /* 硬件制造商，用于USB和蓝牙显示 */
-#define PRODUCT "Horror Zoo" /* 硬件名称，用于USB和蓝牙显示 */
-#define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
+#define MANUFACTURER "HBK_Official" /* 硬件制造商，用于USB和蓝牙显示 */
+#define PRODUCT "HBK_PAD" /* 硬件名称，用于USB和蓝牙显示 */
+// #define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
 
 /* USB HID report parameter */
 #define KEYBOARD_EPSIZE 8 /* 键盘上传端点大小，请不要修改 */
@@ -97,8 +97,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // USB UART 传输配置
 #define HAS_USB // 启用与CH554的通信支持
-#define UART_RXD 17 // UART_RX口IO
-#define UART_TXD 18 // UART_TX口IO
+#define UART_RXD 30 // UART_RX口IO
+#define UART_TXD 31 // UART_TX口IO
 // #define UART_DET 19 // UART 检测引脚，若此脚被拉低，则说明USB正在工作。若不配置则使用RX口作为检测引脚
 #define UART_BAUDRATE NRF_UART_BAUDRATE_115200 // 通信波特率，请不要修改
 
@@ -124,7 +124,7 @@ static const uint8_t column_pin_array[MATRIX_COLS] = {24, 19, 15, 14};
 // #define ROW_IN // 键盘阵列的二极管方向是从COL->ROW
 #define ROW_IN
 /* define if matrix has ghost */
-#define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
+// #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
 // 旋钮配置
 #define ROTARY_ENCODER_A 3
 #define ROTARY_ENCODER_B 4

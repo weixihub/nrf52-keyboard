@@ -22,7 +22,7 @@ EXTRAKEY_ENABLE 	= yes	# 启用媒体键功能
 NKRO_ENABLE 		= yes	# 启用USB的全键无冲功能
 USB_6KRO_ENABLE 	= yes 	# 启用USB的六键无冲功能
 SSD1306_OLED 		= yes	# 启用oled功能
-RGB_MATRIX_ENABLE 	= yes   #启用WS2812 RGB矩阵灯
+# RGB_MATRIX_ENABLE 	= yes   # 启用WS2812 RGB矩阵灯
 ONBOARD_CMSIS_DAP 	= yes 	# 启用板载调试器
 ROTARY_ENCODER 		= yes 	# 启用编码器
 ########## STOP HERE ##########
