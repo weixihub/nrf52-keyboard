@@ -84,18 +84,22 @@ __attribute__((weak)) void action_function(keyrecord_t* record, uint8_t id, uint
             case SWITCH_DEVICE_BLE_0: // 蓝牙设备的切换
                 // todo: 切换前清除当前按键
                 switch_device_select(0);
+                advertising_restart(BLE_ADV_MODE_FAST, false);
                 break;
             case SWITCH_DEVICE_BLE_1:
                 switch_device_select(1);
+                advertising_restart(BLE_ADV_MODE_FAST, false);
                 break;
             case SWITCH_DEVICE_BLE_2:
                 switch_device_select(2);
+                advertising_restart(BLE_ADV_MODE_FAST, false);
                 break;
             case SWITCH_DEVICE_BLE_READV:
                 advertising_restart(BLE_ADV_MODE_FAST, true);
                 break;
             case SWITCH_DEVICE_BLE_REBOND:
                 switch_device_rebond();
+                advertising_restart(BLE_ADV_MODE_FAST, true);
                 break;
 #endif
             default:

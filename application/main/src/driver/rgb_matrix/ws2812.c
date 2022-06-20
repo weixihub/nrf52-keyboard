@@ -33,6 +33,8 @@ nrf_drv_pwm_t pwm0 = NRFX_PWM_INSTANCE(0);
 
 #define DUMMY_SIGNAL_LEN 10
 
+static bool powered = false; //WS2812是否已经电源驱动
+
 void pwm_handler(nrfx_pwm_evt_type_t event_type)
 {
 }
@@ -156,7 +158,7 @@ void ws2812_pwr_init(void)
 }
 
 //释放RGB power控制脚
-void ws2812_pwr_deinit(void) 
+void ws2812_pwr_deinit(void)
 {
     nrf_gpio_cfg_default(RGB_DI_PIN);
 #ifdef RGB_PWR_PIN
@@ -170,21 +172,35 @@ void ws2812_pwr_deinit(void)
 //开启RGB电源
 void ws2812_pwr_on(void)
 {
+    if (powered) {//已经开启电源，直接返回
+        return;
+    }
 #ifdef RGB_PWR_PIN
     nrf_gpio_pin_write(RGB_PWR_PIN, 0);
 #endif
 #ifdef RGB_PWR_PIN_REVERSE
     nrf_gpio_pin_write(RGB_PWR_PIN_REVERSE, 1);
 #endif
+    powered = true;
 }
 
 //关闭RGB电源
 void ws2812_pwr_off(void)
 {
+    if (!powered) { //已经关闭电源，直接返回
+        return;
+    }
 #ifdef RGB_PWR_PIN
     nrf_gpio_pin_write(RGB_PWR_PIN, 1);
 #endif
 #ifdef RGB_PWR_PIN_REVERSE
     nrf_gpio_pin_write(RGB_PWR_PIN_REVERSE, 0);
 #endif
+    powered = false;
+}
+
+//WS2812是否电源驱动中
+bool ws2812_is_powered(void)
+{
+    return powered;
 }

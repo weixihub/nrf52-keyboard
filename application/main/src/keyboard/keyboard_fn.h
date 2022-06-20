@@ -25,6 +25,20 @@ enum fn_switch_device {
     SWITCH_DEVICE_BLE_READV = 0x0b,
 };
 
+enum fn_rgblight_control {
+    RGBLIGHT_TOGGLE, // 开关
+    RGBLIGHT_MODE_INCREASE, // 模式+
+    RGBLIGHT_MODE_DECREASE, // 模式-
+    RGBLIGHT_HUE_INCREASE, // 色相+
+    RGBLIGHT_HUE_DECREASE, // 色相-
+    RGBLIGHT_SAT_INCREASE, // 饱和度+
+    RGBLIGHT_SAT_DECREASE, // 饱和度-
+    RGBLIGHT_VAL_INCREASE, // 明度+
+    RGBLIGHT_VAL_DECREASE, // 明度-
+    RGBLIGHT_SPEED_INCREASE, // 速度+
+    RGBLIGHT_SPEED_DECREASE, // 速度-
+};
+
 /**
  * @brief 模块的Fn处理函数
  * 

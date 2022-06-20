@@ -1,0 +1,6 @@
+#include "rgb_matrix_runners/effect_runner_dx_dy_dist.h"
+#include "rgb_matrix_runners/effect_runner_dx_dy.h"
+#include "rgb_matrix_runners/effect_runner_i.h"
+#include "rgb_matrix_runners/effect_runner_sin_cos_i.h"
+#include "rgb_matrix_runners/effect_runner_reactive.h"
+#include "rgb_matrix_runners/effect_runner_reactive_splash.h"

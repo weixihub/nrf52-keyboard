@@ -258,33 +258,39 @@ static bool command_common(uint8_t code)
 #ifdef RGBLIGHT_ENABLE
         rgblight_disable_noeeprom();
 #endif
-        app_timer_start(command_run_timer, APP_TIMER_TICKS(1000), (void*)(uint32_t)COMMAND_SLEEP);
+        app_timer_start(command_run_timer, APP_TIMER_TICKS(200), (void*)(uint32_t)COMMAND_SLEEP);
         break;
     case KC_BSPC:
     case KC_GRV:
-        //休眠
+        //关机
         clear_keyboard();
 #ifdef RGBLIGHT_ENABLE
         rgblight_disable_noeeprom();
 #endif
-        app_timer_start(command_run_timer, APP_TIMER_TICKS(1000), (void*)(uint32_t)COMMAND_SYSTEMOFF);
+        app_timer_start(command_run_timer, APP_TIMER_TICKS(200), (void*)(uint32_t)COMMAND_SYSTEMOFF);
         break;
     case KC_H:
+        //输出电量
         clear_keyboard();
         print_battery_percentage();
         break;
 #ifdef BOOTCHECK_ENABLE        
     case KC_I:
+        //开关启动按键检测
         clear_keyboard();
         bootcheck_flag_toggle();
         break;
 #endif
     case KC_L:
+        //开关指示灯
 #ifdef THREE_LED_STATUS
         leds_switch();
 #endif
 #ifdef RGB_LIGHT_ENABLE
         rgb_indicator_toggle();
+#endif
+#ifdef RGB_MATRIX_ENABLE
+        rgb_matrix_toggle_indicator();
 #endif
         break;
     default:

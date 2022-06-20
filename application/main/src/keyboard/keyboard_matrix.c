@@ -81,12 +81,15 @@ void matrix_init(void)
 #ifdef LESS_IO
 static matrix_row_t read_cols(uint8_t row)
 {
-    uint16_t result = 0;
+    matrix_row_t result = 0;
 
     for (uint_fast8_t c = 0; c < MATRIX_COLS; c++) {
 
+        if ((uint32_t)column_pin_array[c] > 31)
+            continue;
+
         if (c == row)
-             continue;
+            continue;
 
         if (READ_COL((uint32_t)column_pin_array[c]))
             result |= 1 << c;
@@ -100,6 +103,10 @@ static matrix_row_t read_cols(void)
     matrix_row_t result = 0;
 
     for (uint_fast8_t c = 0; c < MATRIX_COLS; c++) {
+
+        if ((uint32_t)column_pin_array[c] > 31)
+            continue;
+
         if (READ_COL((uint32_t)column_pin_array[c]))
             result |= 1 << c;
     }

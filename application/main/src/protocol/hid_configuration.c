@@ -51,7 +51,7 @@ const uint32_t keyboard_function_table =
 #ifdef RGBLIGHT_ENABLE
     (1 << 16) +
 #endif
-#ifdef RGBMATRIX_ENABLE
+#ifdef RGB_MATRIX_ENABLE
     (1 << 17) +
 #endif
     0;

@@ -30,11 +30,12 @@ NRF_SECTION_DEF(adc_channel, struct adc_channel_config*);
 #define SAMPLES_IN_BUFFER (SINGLE_CHANNEL_BUFFER_LEN * ADC_CONFIG_COUNT)
 static nrf_saadc_value_t m_buffer_pool[2][TOTAL_SAMPLES_BUFFER];
 
-#define ADC_TIMER_PERIOD 10
+#define ADC_TIMER_PERIOD 50
 #define ADC_TIMER_INTERVAL APP_TIMER_TICKS(ADC_TIMER_PERIOD)
 APP_TIMER_DEF(adc_timer);
 
 static bool saadc_inited = false;
+static bool first_run = true;
 static uint8_t callback_times;
 
 /**
@@ -67,9 +68,15 @@ static void adc_event_callback(nrfx_saadc_evt_t const* p_event)
             if (channel->adc_finish != 0) {
                 if (channel->period_pass <= ADC_TIMER_PERIOD) {
                     channel->adc_finish(results[i]);
-                    // 尽快显示,短路评估,因此callback_times不会溢出
-                    if (!channel->period_pass && callback_times++ >= ADC_BUFFER_SIZE) {
-                        // reload 周期
+                    if (first_run) {
+                        // 首次启动，不reload周期，尽快发送通道结果
+                        if (!channel->period_pass && callback_times++ >= ADC_BUFFER_SIZE) {
+                            // reload 周期
+                            channel->period_pass = channel->period;
+                            callback_times = 0;
+                            first_run = false;
+                        }
+                    } else {
                         channel->period_pass = channel->period;
                     }
                 }

@@ -55,9 +55,9 @@ rgb_light_config_t rgb_light_config;
 static bool rgb_light_timer_enabled = false;
 static bool ble_connected = false;
 static bool usb_working = false;
-static uint8_t ble_channel = 0;
 static bool rgb_working = false;
 
+extern uint8_t ble_channel; //引入蓝牙通道全局变量
 
 #define PWM_BITS 8
 #define PWM_PRESCALER (8 - PWM_BITS)
@@ -824,15 +824,12 @@ static void status_rgb_light_evt_handler(enum user_event event, void* arg)
     case USER_EVT_BLE_DEVICE_SWITCH: // 蓝牙设备通道切换事件
         switch (arg2) {
         case BLE_DEVICE_CHANNEL0:
-            ble_channel = 0;
             led_status_change();
             break;
         case BLE_DEVICE_CHANNEL1:
-            ble_channel = 1;
             led_status_change();
             break;
         case BLE_DEVICE_CHANNEL2:
-            ble_channel = 2;
             led_status_change();
             break;
         default:

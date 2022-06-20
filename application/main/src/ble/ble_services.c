@@ -69,7 +69,7 @@ uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID; /**< Handle of the current con
 static pm_peer_id_t m_peer_id; /**< Device reference handle to the current bonded central. */
 
 #ifdef MULTI_DEVICE_SWITCH
-uint8_t switch_id = 0; /** 当前设备ID Device ID of currently in the eeconfig   */
+uint8_t ble_channel = 0; /** 当前蓝牙设备通道 */
 #endif
 
 NRF_BLE_GATT_DEF(m_gatt); /**< GATT module instance. */
@@ -203,7 +203,7 @@ void delete_bonds(void)
     APP_ERROR_CHECK(err_code);
 #ifdef MULTI_DEVICE_SWITCH
     //清空所有绑定后，自动回到首个设备
-    switch_id = 10; //将switch_id设置为无效ID
+    ble_channel = 10; //将蓝牙通道设置为无效的10
     switch_device_id_write(0);
     switch_device_select(0);
 #endif
@@ -245,7 +245,7 @@ static void peer_list_find_and_delete_bond(void)
         uint8_t addr[8];
 
         if (pm_peer_data_app_data_load(peer_id, addr, &length) == NRF_SUCCESS) {
-            if (addr[3] == switch_id) {
+            if (addr[3] == ble_channel) {
                 pm_peer_delete(peer_id);
             }
         }
@@ -270,12 +270,12 @@ void switch_device_select(uint8_t id)
     }
 #endif
     // 如果重复切换，则直接退出，不做任何操作
-    if (id == switch_id) {
+    if (id == ble_channel) {
         return;
     } else {
         ble_disconnect();
     }
-    switch_id = id;
+    ble_channel = id;
 
     switch_device_id_write(id);
 
@@ -297,8 +297,8 @@ void switch_device_select(uint8_t id)
 void switch_device_rebond()
 {
     peer_list_find_and_delete_bond();
-    uint8_t rebond_id = switch_id;
-    switch_id = 10; //将switch_id设置为无效ID
+    uint8_t rebond_id = ble_channel;
+    ble_channel = 10; //将蓝牙通道设置为无效的10
     switch_device_select(rebond_id);
 }
 /**
@@ -311,17 +311,17 @@ void switch_device_init()
 
     ret_code_t ret;
     ble_gap_addr_t gap_addr;
-    switch_id = switch_device_id_read();
+    ble_channel = switch_device_id_read();
 
     ret = sd_ble_gap_addr_get(&gap_addr);
     APP_ERROR_CHECK(ret);
 
-    gap_addr.addr[3] = switch_id;
+    gap_addr.addr[3] = ble_channel;
 
     ret = sd_ble_gap_addr_set(&gap_addr);
     APP_ERROR_CHECK(ret);
 
-    trig_event_param(USER_EVT_BLE_DEVICE_SWITCH, switch_id);
+    trig_event_param(USER_EVT_BLE_DEVICE_SWITCH, ble_channel);
 }
 #endif
 

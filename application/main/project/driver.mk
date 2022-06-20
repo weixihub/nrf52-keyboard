@@ -48,10 +48,10 @@ ifeq (yes,$(strip $(RGBLIGHT_ENABLE)))
 	    $(DRIVER_DIR)/rgb_matrix
 
     SRC_FILES +=$(DRIVER_DIR)/rgb_matrix/ws2812.c \
-	            $(DRIVER_DIR)/rgb_matrix/rgblight.c \
+                $(DRIVER_DIR)/rgb_matrix/rgblight.c \
                 $(DRIVER_DIR)/rgb_matrix/color.c \
-	            $(DRIVER_DIR)/rgb_matrix/led_tables.c \
-	            $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_pwm.c
+                $(DRIVER_DIR)/rgb_matrix/led_tables.c \
+                $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_pwm.c
     OPT_DEFS += -DNRFX_PWM_ENABLED=1 -DNRFX_PWM0_ENABLED=1 -DPWM_ENABLED=1 -DPWM0_ENABLED=1 -DRGBLIGHT_ENABLE -DUSE_CIE1931_CURVE
 endif
 
@@ -62,10 +62,12 @@ ifeq (yes,$(strip $(RGB_MATRIX_ENABLE)))
     SRC_FILES +=$(DRIVER_DIR)/rgb_matrix/ws2812.c \
                 $(DRIVER_DIR)/rgb_matrix/rgb_matrix.c \
                 $(DRIVER_DIR)/rgb_matrix/rgb_matrix_drivers.c \
+                $(DRIVER_DIR)/rgb_matrix/rgb_matrix_indicator.c \
                 $(DRIVER_DIR)/rgb_matrix/color.c \
-	            $(DRIVER_DIR)/rgb_matrix/led_tables.c \
+                $(DRIVER_DIR)/rgb_matrix/led_tables.c \
                 $(DRIVER_DIR)/rgb_matrix/rgblight_ctrl.c \
-	            $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_pwm.c
+                $(DRIVER_DIR)/rgb_matrix/lib8tion/lib8tion.c \
+                $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_pwm.c
     OPT_DEFS += -DNRFX_PWM_ENABLED=1 -DNRFX_PWM0_ENABLED=1 -DPWM_ENABLED=1 -DPWM0_ENABLED=1 -DRGB_MATRIX_ENABLE -DUSE_CIE1931_CURVE -DWS2812
 endif
 

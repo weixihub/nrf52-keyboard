@@ -2,6 +2,7 @@ ROOT_DIR := ../../..
 APP_MAIN_DIR := $(ROOT_DIR)/application/main
 TMK_CORE_DIR := $(ROOT_DIR)/tmk/tmk_core
 USB_SOURCE_DIR := $(ROOT_DIR)/usb
+OUTPUT_DIR = _build
 
 APP_PROJ_DIR := $(APP_MAIN_DIR)/project
 APP_SRC_DIR := $(APP_MAIN_DIR)/src
@@ -23,7 +24,32 @@ SRC_FILES += \
 	custom_led.c \
 
 
-all: default ch554
+# 发布相关设置
+export VERSION=11$(shell git log --abbrev-commit --pretty=oneline -1 | cut -c 1-6 || echo 'unknown')
+export BUILDTIME=$(shell date +"%Y%m%d")
+export FILE_VERSION = $(BUILDTIME)-$(VERSION)
+
+## 如果上层Makefile传递了OUTPUT_DIRECTORY
+ifdef OUTPUT_DIRECTORY
+OUTPUT_DIR = ../$(OUTPUT_DIRECTORY)
+ifndef RELEASE_DIR
+export RELEASE_DIR = $(OUTPUT_DIRECTORY)/..
+endif
+NRF_KBD_NAME = $(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_kbd-$(FILE_VERSION).hex
+NRF_PACKAGE_NAME=$(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_dfu-$(FILE_VERSION).zip
+OUTPUT_BIN=$(RELEASE_DIR)/$(BUILD_PREFIX)-ch554-$(FILE_VERSION).bin
+NRF_MERGE_SIGN_NAME=$(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_kbd_sign-$(FILE_VERSION).hex
+NRF_MERGE_ALL_NAME=$(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_all-$(FILE_VERSION).hex
+endif
+
+release: kbd package ch554 all
+## 发布时同步生成指定的NRF_CHIP固件
+	@echo make -C $(CONFIG_H_DIR) all NRF_CHIP=nrf52811 OUTPUT_DIRECTORY=$(OUTPUT_DIR)
+	@make -C $(CONFIG_H_DIR) all NRF_CHIP=nrf52811 OUTPUT_DIRECTORY=$(OUTPUT_DIR) 
+	@echo make -C $(CONFIG_H_DIR) kbd NRF_CHIP=nrf52811 OUTPUT_DIRECTORY=$(OUTPUT_DIR)
+	@make -C $(CONFIG_H_DIR) kbd NRF_CHIP=nrf52811 OUTPUT_DIRECTORY=$(OUTPUT_DIR) 
+
+# END 发布设置
 
 include $(APP_PROJ_DIR)/kbd.mk
 include $(USB_SOURCE_DIR)/usb.mk

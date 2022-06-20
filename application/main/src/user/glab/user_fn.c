@@ -21,6 +21,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifdef RGB_LIGHT_ENABLE
 #include "rgb_light.h"
 #endif
+#ifdef RGB_MATRIX_ENABLE
+#include "rgb_matrix.h"
+#endif
+#ifdef THREE_LED_STATUS
+#include "3led_status.h"
+#endif
+#ifdef BOOTCHECK_ENABLE
+#include "keyboard_bootcheck.h"
+#endif
 
 #define MODS_SHIFT_MASK (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT))
 #define MODS_RSHIFT_MASK (MOD_BIT(KC_RSHIFT))
@@ -138,6 +147,33 @@ void custom_fn_handler(keyrecord_t* record, uint8_t id, uint8_t opt)
                 break;
             case RGB_LIGHT_TML:
                 rgb_indicator_toggle();
+                break;
+#endif
+            default:
+                break;
+            }
+        }
+        break;
+    case USER_KEYBOARD_CONTROL:
+        if (record->event.pressed) {
+            switch (opt) {
+            case CONTROL_SYSTEMOFF: // 关机
+                sleep(SLEEP_MANUALLY_NO_WAKEUP);
+                break;
+            case CONTROL_TOGGLE_INDICATOR_LIGHT: // 开关指示灯
+#ifdef THREE_LED_STATUS
+                leds_switch();
+#endif
+#ifdef RGB_LIGHT_ENABLE
+                rgb_indicator_toggle();
+#endif
+#ifdef RGB_MATRIX_ENABLE
+                rgb_matrix_toggle_indicator();
+#endif
+                break;
+#ifdef BOOTCHECK_ENABLE
+            case CONTROL_TOGGLE_BOOTCHECK: //开关启动按键检测
+                bootcheck_flag_toggle();
                 break;
 #endif
             default:

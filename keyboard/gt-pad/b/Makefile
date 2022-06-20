@@ -27,8 +27,24 @@ else
 	$(USER_SRC_DIR)/user_fn.c
 endif
 
+# 发布相关设置
+export VERSION=11$(shell git log --abbrev-commit --pretty=oneline -1 | cut -c 1-6 || echo 'unknown')
+export BUILDTIME=$(shell date +"%Y%m%d")
+export FILE_VERSION = $(BUILDTIME)-$(VERSION)
 
-all: default ch554
+## 如果上层Makefile传递了OUTPUT_DIRECTORY
+ifdef OUTPUT_DIRECTORY
+ifndef RELEASE_DIR
+export RELEASE_DIR = $(OUTPUT_DIRECTORY)/..
+endif
+NRF_KBD_NAME = $(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_kbd-$(FILE_VERSION).hex
+NRF_PACKAGE_NAME=$(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_dfu-$(FILE_VERSION).zip
+OUTPUT_BIN=$(RELEASE_DIR)/$(BUILD_PREFIX)-ch554-$(FILE_VERSION).bin
+NRF_MERGE_SIGN_NAME=$(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_kbd_sign-$(FILE_VERSION).hex
+NRF_MERGE_ALL_NAME=$(RELEASE_DIR)/$(BUILD_PREFIX)-$(NRF_CHIP)_all-$(FILE_VERSION).hex
+endif
+release: kbd package ch554 all
+# END 发布设置
 
 include $(APP_PROJ_DIR)/kbd.mk
 include $(USB_SOURCE_DIR)/usb.mk

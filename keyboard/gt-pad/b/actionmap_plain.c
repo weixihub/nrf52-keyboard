@@ -19,8 +19,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "action_code.h"
 #include "actionmap_common.h"
 #include "keyboard_fn.h"
-#include "user_fn.h"
+#include "rgb_matrix.h"
 #include "rgb_matrix_types.h"
+#include "user_fn.h"
 
 /* 
  * 定义需使用的FN按键

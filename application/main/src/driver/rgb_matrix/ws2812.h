@@ -68,6 +68,8 @@ void ws2812_pwr_deinit(void);
 void ws2812_pwr_on(void);
 //关闭RGB电源
 void ws2812_pwr_off(void);
+//WS2812是否电源驱动中
+bool ws2812_is_powered(void);
 
 /*
  * Internal defines

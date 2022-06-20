@@ -1,4 +1,4 @@
-# newhope64 键盘
+# newhope64 REV.A 键盘
 
 ## 描述
 

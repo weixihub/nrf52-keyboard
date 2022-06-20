@@ -66,7 +66,12 @@ enum user_event {
      * @brief 键盘灯光改变事件
      * 参数值是灯光值本身
      */
-    USER_EVT_LED
+    USER_EVT_LED,
+    /**
+     * @brief 电池电量信息刷新事件。
+     * 
+     */
+    USER_EVT_BATTERY_INFO_REFRESH,
 };
 
 /**
@@ -75,7 +80,6 @@ enum user_event {
  */
 enum internal_event {
     INTERNAL_EVT_GATTS_TX_COMPLETE, // 蓝牙GATTS发送成功（启用加密情况下表示连接成功）
-    INTERNAL_EVT_BATTERY_INFO_REFRESH, //电池电量检测刷新
 };
 
 /**
@@ -164,8 +168,8 @@ enum hid_protocol_type {
  * 省电事件状态
  */
 enum power_save_mode {
-    PWR_SAVE_ON, // 启用省电模式
     PWR_SAVE_OFF, // 禁用省电模式
+    PWR_SAVE_ON, // 启用省电模式
     PWR_SAVE_ENTER, // 进入省电模式
     PWR_SAVE_EXIT, // 退出省电模式
 };

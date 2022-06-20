@@ -24,10 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VENDOR_ID 0x1209 /* USB VID */
 #define PRODUCT_ID 0x0514 /* USB PID */
 #define CONF_VENDOR_ID 0x4366 /* 配置项目内显示的VendorID */
-#define CONF_PRODUCT_ID 0x0319 /* 配置项目内显示的ProductID */
-#define DEVICE_VER 0x0000 /* 硬件版本 */
-#define MANUFACTURER "Lotlab" /* 硬件制造商，用于蓝牙显示 */
-#define PRODUCT "NewHope64" /* 硬件名词，用于蓝牙显示 */
+#define CONF_PRODUCT_ID 0x031D /* 配置项目内显示的ProductID */
+#define DEVICE_VER 0x0001 /* 硬件版本 */
+#define MANUFACTURER "Glab" /* 硬件制造商，用于蓝牙显示 */
+#define PRODUCT "Farad69D" /* 硬件名词，用于蓝牙显示 */
 #define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
 
 /* USB HID report parameter */
@@ -69,55 +69,111 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_FUNCTION
 
 // LED 配置
-#define LED_CAPS 4
+// #define LED_CAPS 4  //caps led ：5 ； led1、2、3、4：19、20、27、26
 
 // ws2812 RGB 配置
-#define RGB_DI_PIN 10
-#define RGBLED_NUM 8
+#define RGB_DI_PIN 1
+#define RGBLED_NUM 120
+#define DRIVER_LED_TOTAL RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
-#define RGB_PWR_PIN 11 // P-mos
-//#define RGB_PWR_PIN_REVERSE 20 // N-mos
+#define RGB_PWR_PIN 15 // P-mos
+//#define RGB_PWR_PIN_REVERSE 12 // N-mos
+
+//RGB_MATRIX 配置
+#define RGB_MATRIX_KEYPRESSES // reacts to keypresses
+//#define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)
+#define RGB_MATRIX_FRAMEBUFFER_EFFECTS // enable framebuffer effects
+#define RGB_DISABLE_TIMEOUT 0 // number of milliseconds to wait until rgb automatically turns off
+#define RGB_DISABLE_AFTER_TIMEOUT 2 // OBSOLETE: number of ticks to wait until disabling effects
+//#define RGB_MATRIX_LED_PROCESS_LIMIT (DRIVER_LED_TOTAL + 4) / 5 // limits the number of LEDs to process in an animation per task run (increases keyboard responsiveness)
+#define RGB_MATRIX_LED_FLUSH_LIMIT 16 // limits in milliseconds how frequently an animation will update the LEDs. 16 (16ms) is equivalent to limiting to 60fps (increases keyboard responsiveness)
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 200 // limits maximum brightness of LEDs to 200 out of 255. If not defined maximum brightness is set to 255
+//#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_CYCLE_LEFT_RIGHT // Sets the default mode, if none has been set
+#define RGB_MATRIX_STARTUP_HUE 0 // Sets the default hue value, if none has been set
+#define RGB_MATRIX_STARTUP_SAT 255 // Sets the default saturation value, if none has been set
+#define RGB_MATRIX_STARTUP_VAL RGB_MATRIX_MAXIMUM_BRIGHTNESS // Sets the default brightness value, if none has been set
+#define RGB_MATRIX_CENTER { 120, 32 }
+#define RGB_MATRIX_INDICATORS_CAPS 30  //CAPS灯的序号，从0起算
+#define RGB_MATRIX_INDICATORS_NUM 13  //CAPS灯的序号，从0起算
+#define RGB_MATRIX_INDICATORS_HOST 1   //输出状态灯的序号，从0起算
 
 // 3灯指示配置引脚
-#define LED_STATUS_BLE 7
-#define LED_STATUS_USB 6
-#define LED_STATUS_CHARGING 5
-#define LED_BLE_CHANNEL1 7
-#define LED_BLE_CHANNEL2 6
-#define LED_BLE_CHANNEL3 5
+// #define LED_STATUS_BLE 19
+// #define LED_STATUS_CHARGING 18
+// #define LED_STATUS_USB 20
+// #define LED_BLE_CHANNEL1 19
+// #define LED_BLE_CHANNEL2 20
+// #define LED_BLE_CHANNEL3 18
 #define LED_POSITIVE // LED上拉驱动
 
+// RGB 配置
+//#define LED_RGB_CC // 是否为共阴LED
+//#define LED_RGB_R 5
+//#define LED_RGB_G 4
+//#define LED_RGB_B 3
+//#define RGB_LIGHT_ANIMATIONS
+
 // 独立硬件按钮
-#define POWER_BUTTON 3
+#define POWER_BUTTON 21
 
 // USB UART 传输配置
 #define HAS_USB // 启用与CH554的通信支持
-#define UART_RXD 8 // UART_RX口IO 17
-#define UART_TXD 9 // UART_TX口IO 18
+#define UART_RXD 2 // UART_RX口IO 17
+#define UART_TXD 3 // UART_TX口IO 18
 //#define UART_DET 19 // UART 检测引脚，若此脚被拉低，则说明USB正在工作。若不配置则使用RX口作为检测引脚
 #define UART_BAUDRATE NRF_UART_BAUDRATE_115200 // 通信波特率，请不要修改
 
 // 电量检测配置
-#define BATTERY_ADC_PIN NRF_SAADC_INPUT_AIN0 // 电量检测引脚 Pin 2
+#define BATTERY_ADC_PIN NRF_SAADC_INPUT_AIN2 // 电量检测引脚 Pin 4
 
 // 充电检测配置
 //#define PIN_CHARGING !UCC1
 //#define PIN_STANDBY !UCC2
 
+// 多用途 Bootloader 按钮
+#define NRF_BL_DFU_MULTI_ROLE_BTN 21
+// Bootloader指示灯
+//#define LED_DFU_INIT 5
+//#define LED_DFU_START 4
+//#define LED_DFU_FINISH 3
+
 // 按键阵列配置
-#define MATRIX_ROWS 5 /* 硬件阵列行数 */
-#define MATRIX_COLS 14 /* 硬件阵列列数 */
+#define MATRIX_ROWS 6 /* 硬件阵列行数 */
+#define MATRIX_COLS 15 /* 硬件阵列列数 */
 
 /* key combination for command */
 #define IS_COMMAND() ( \
     keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)))
 
-static const uint8_t row_pin_array[MATRIX_ROWS] = { 26, 30, 29, 28, 27 };
-static const uint8_t column_pin_array[MATRIX_COLS] = { 25, 24, 23, 22, 21, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+static const uint8_t row_pin_array[MATRIX_ROWS] = {10, 9, 8, 12, 19, 99};
+static const uint8_t column_pin_array[MATRIX_COLS] = {25, 26, 27, 28, 29, 30, 31, 0, 11, 13, 14, 16, 17, 18, 5};
+
 #define ROW_IN // 键盘阵列的二极管方向是从COL->ROW
+
+// 旋钮配置
+#define ROTARY_ENCODER_A 7
+#define ROTARY_ENCODER_B 6
+// 旋钮正向按钮映射
+#define ROTARY_ENCODER_POS 5,0
+// 旋钮负向按钮映射
+#define ROTARY_ENCODER_NEG 5,1
+// 独立旋钮按键  用于关机后开机
+#define ROTARY_BUTTON 5
 
 /* define if matrix has ghost */
 // #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
 
 #define DEBOUNCE 5 /* 硬件消抖次数，设置为0则不消抖 */
 #define MATRIX_SCAN_DELAY_CYCLE 48 /* 按键扫描等待IO稳定的延时时长 */
+
+// 采用内部RC
+#define NRFX_CLOCK_CONFIG_LF_SRC 0
+#define CLOCK_CONFIG_LF_SRC 0
+#define NRF_SDH_CLOCK_LF_SRC 0
+#define NRF_SDH_CLOCK_LF_RC_CTIV 16
+#define NRF_SDH_CLOCK_LF_RC_TEMP_CTIV 2
+#define NRF_SDH_CLOCK_LF_ACCURACY 1
+
+//配置RTC预分频器.
+// <0> 32MHz <1> 16MHz <3> 8MHz <7> 4MHz <15> 2MHz <31> 1MHz 
+#define APP_TIMER_CONFIG_RTC_FREQUENCY 0

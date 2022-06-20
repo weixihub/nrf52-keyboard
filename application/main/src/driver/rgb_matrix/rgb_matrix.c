@@ -20,6 +20,7 @@
 #include "config.h"
 #include "data_storage.h"
 #include "keyboard_evt.h"
+#include "power_save.h"
 #include "progmem.h"
 #include "timer.h"
 #include "wait.h"
@@ -40,12 +41,7 @@ __attribute__((weak)) RGB rgb_matrix_hsv_to_rgb(HSV hsv)
 }
 
 // Generic effect runners
-#include "rgb_matrix_runners/effect_runner_dx_dy.h"
-#include "rgb_matrix_runners/effect_runner_dx_dy_dist.h"
-#include "rgb_matrix_runners/effect_runner_i.h"
-#include "rgb_matrix_runners/effect_runner_reactive.h"
-#include "rgb_matrix_runners/effect_runner_reactive_splash.h"
-#include "rgb_matrix_runners/effect_runner_sin_cos_i.h"
+#include "rgb_matrix_runners/rgb_matrix_runners.inc"
 
 // ------------------------------------------
 // -----Begin rgb effect includes macros-----
@@ -126,6 +122,7 @@ __attribute__((weak)) RGB rgb_matrix_hsv_to_rgb(HSV hsv)
 // globals
 rgb_config_t rgb_matrix_config; // TODO: would like to prefix this with g_ for global consistancy, do this in another pr
 uint32_t g_rgb_timer;
+//bool rgb_matrix_indicators_on;
 #ifdef RGB_MATRIX_FRAMEBUFFER_EFFECTS
 uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS] = { { 0 } };
 #endif // RGB_MATRIX_FRAMEBUFFER_EFFECTS
@@ -135,7 +132,7 @@ last_hit_t g_last_hit_tracker;
 
 // internals
 static bool suspend_state = false;
-static uint8_t rgb_last_enable = UINT8_MAX;
+static bool rgb_last_enable;
 static uint8_t rgb_last_effect = UINT8_MAX;
 static effect_params_t rgb_effect_params = { 0, LED_FLAG_ALL, false };
 static rgb_task_states rgb_task_state = SYNCING;
@@ -178,6 +175,7 @@ void eeconfig_update_rgb_matrix(void) {
 void eeconfig_update_rgb_matrix_default(void)
 {
     rgb_matrix_config.enable = 1;
+    rgb_matrix_config.indicators = 1;
     rgb_matrix_config.mode = RGB_MATRIX_STARTUP_MODE;
     rgb_matrix_config.hsv = (HSV) { RGB_MATRIX_STARTUP_HUE, RGB_MATRIX_STARTUP_SAT, RGB_MATRIX_STARTUP_VAL };
     rgb_matrix_config.speed = RGB_MATRIX_STARTUP_SPD;
@@ -447,7 +445,7 @@ void rgb_matrix_task(void)  //need mod
 #endif // RGB_DISABLE_TIMEOUT > 0
         false;
 
-    uint8_t effect = suspend_backlight || !rgb_matrix_config.enable ? 0 : rgb_matrix_config.mode;
+    uint8_t effect = suspend_backlight || !rgb_matrix_config.enable ? rgb_matrix_config.indicators : rgb_matrix_config.mode;
 
     switch (rgb_task_state) {
     case STARTING: //初始
@@ -503,6 +501,19 @@ __attribute__((weak)) void rgb_matrix_indicators_advanced_kb(uint8_t led_min, ui
 
 __attribute__((weak)) void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) { }
 
+//根据指示灯与RGB灯状态控制RGB电源开关
+static void rgb_matrix_toggle_pwr(void)
+{
+    if (!rgb_matrix_config.indicators && !rgb_matrix_config.enable) {
+        ws2812_pwr_off();
+    } else if (rgb_matrix_config.indicators) {
+        ws2812_pwr_on();
+        power_save_reset();
+    } else if (rgb_matrix_config.enable) {
+        ws2812_pwr_on();
+    }
+}
+
 void rgb_matrix_init(void)  //need mod
 {
     rgb_matrix_driver.init();  //调用rgb_matrix_driver中init函数，当前ws2812中为空
@@ -530,18 +541,36 @@ void rgb_matrix_init(void)  //need mod
     }
 //    eeconfig_debug_rgb_matrix(); // display current eeprom values
     ws2812_pwr_init();
-    if (rgb_matrix_config.enable) {
-        ws2812_pwr_on();
-    } else {
-        ws2812_pwr_off();
+    rgb_matrix_toggle_pwr();
+}
+
+//休眠关机时调用关闭RGB
+void rgb_matrix_sleep_prepare(void)  //need mod
+{
+    // 禁用RGB MATRIX
+    rgb_matrix_disable_noeeprom();
+    wait_ms(1);
+    ws2812_pwr_deinit();
+}
+
+//指示灯是否启用开关
+void rgb_matrix_toggle_indicator_eeprom_helper(bool write_to_eeprom)
+{
+    rgb_matrix_config.indicators ^= 1;
+    rgb_matrix_toggle_pwr();
+    if (write_to_eeprom) {
+        eeconfig_update_rgb_matrix();
     }
 }
+void rgb_matrix_toggle_indicator_noeeprom(void) { rgb_matrix_toggle_indicator_eeprom_helper(false); }
+void rgb_matrix_toggle_indicator(void) { rgb_matrix_toggle_indicator_eeprom_helper(true); }
 
 void rgb_matrix_set_suspend_state(bool state)
 {
 #ifdef RGB_DISABLE_WHEN_USB_SUSPENDED
-    if (state) {
-        rgb_matrix_set_color_all(0, 0, 0); // turn off all LEDs when suspending
+    if (state && !suspend_state) { // only run if turning off, and only once
+        rgb_task_render(0); // turn off all LEDs when suspending
+        rgb_task_flush(0); // and actually flash led state to LEDs
     }
     suspend_state = state;
 #endif
@@ -552,11 +581,7 @@ bool rgb_matrix_get_suspend_state(void) { return suspend_state; }
 void rgb_matrix_toggle_eeprom_helper(bool write_to_eeprom) //need mod
 {
     rgb_matrix_config.enable ^= 1;
-    if (rgb_matrix_config.enable) {
-        ws2812_pwr_on();
-    } else {
-        ws2812_pwr_off();
-    }
+    rgb_matrix_toggle_pwr();
     rgb_task_state = STARTING;
     if (write_to_eeprom) {
         eeconfig_update_rgb_matrix();
@@ -567,14 +592,13 @@ void rgb_matrix_toggle(void) { rgb_matrix_toggle_eeprom_helper(true); }
 
 void rgb_matrix_enable(void) //need mod
 {
-    ws2812_pwr_on();
     rgb_matrix_enable_noeeprom();
     eeconfig_update_rgb_matrix();
 }
 
 void rgb_matrix_enable_noeeprom(void) //need mod
 {
-    ws2812_pwr_on();
+    rgb_matrix_toggle_pwr();
     if (!rgb_matrix_config.enable)
         rgb_task_state = STARTING;
     rgb_matrix_config.enable = 1;
@@ -582,20 +606,21 @@ void rgb_matrix_enable_noeeprom(void) //need mod
 
 void rgb_matrix_disable(void) //need mod
 {
-    ws2812_pwr_off();
     rgb_matrix_disable_noeeprom();
     eeconfig_update_rgb_matrix();
 }
 
 void rgb_matrix_disable_noeeprom(void) //need mod
 {
-    ws2812_pwr_off();
     if (rgb_matrix_config.enable)
         rgb_task_state = STARTING;
     rgb_matrix_config.enable = 0;
+    wait_ms(10);
+    rgb_matrix_toggle_pwr();
 }
 
-uint8_t rgb_matrix_is_enabled(void) { return rgb_matrix_config.enable; }
+bool rgb_matrix_is_enabled(void) { return rgb_matrix_config.enable; }
+bool rgb_matrix_is_indicator(void) { return rgb_matrix_config.indicators; }
 
 void rgb_matrix_mode_eeprom_helper(uint8_t mode, bool write_to_eeprom)
 {
@@ -703,15 +728,6 @@ led_flags_t rgb_matrix_get_flags(void) { return rgb_matrix_config.flags; }
 
 void rgb_matrix_set_flags(led_flags_t flags) { rgb_matrix_config.flags = flags; }
 
-//休眠关机时调用关闭RGB
-void rgb_matrix_sleep_prepare(void)  //need mod
-{
-    // 禁用RGB MATRIX
-    rgb_matrix_disable_noeeprom();
-    wait_ms(1);
-    ws2812_pwr_deinit();
-}
-
 static void status_rgb_matrix_evt_handler(enum user_event event, void* arg) //need mod
 {
     uint8_t arg2 = (uint32_t)arg;
@@ -720,6 +736,26 @@ static void status_rgb_matrix_evt_handler(enum user_event event, void* arg) //ne
         switch (arg2) {
         case KBD_STATE_SLEEP: // 准备休眠
             rgb_matrix_sleep_prepare();
+            break;
+        default:
+            break;
+        }
+        break;
+    case USER_EVT_POWERSAVE:
+        switch (arg2) {
+        case PWR_SAVE_EXIT: // 重置省电模式
+            power_save_reset();
+            break;
+        default:
+            break;
+        }
+        break;
+    case USER_EVT_BLE_STATE_CHANGE: // 蓝牙状态事件
+        switch (arg2) {
+        case BLE_STATE_CONNECTED:
+        case BLE_STATE_DISCONNECT:
+        case BLE_STATE_FAST_ADV:
+            power_save_reset();
             break;
         default:
             break;
