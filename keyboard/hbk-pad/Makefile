@@ -8,7 +8,7 @@ OUTPUT_DIR = $(OUTPUT_DIRECTORY)
 export RELEASE_DIR = ../$(OUTPUT_DIR)/..
 endif
 ifndef BUILD_PREFIX
-BUILD_PREFIX = "gt-pad"
+BUILD_PREFIX = "hbk-pad"
 endif
 
 .PHONY: clean release package usb merge_setting all dist_clean
