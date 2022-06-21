@@ -1,7 +1,7 @@
 #ifndef BOOTMAGIC_H
 #define BOOTMAGIC_H
 
-
+#include "config.h"
 /* bootmagic salt key */
 #ifndef BOOTMAGIC_KEY_SALT
 #define BOOTMAGIC_KEY_SALT              KC_SPACE
