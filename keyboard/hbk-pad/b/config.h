@@ -35,12 +35,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define NKRO_EPSIZE 28 /* 键盘NKRO端点大小，请不要修改 */
 
 // 定义Bootmagic按键
-#define BOOTMAGIC_KEY_BOOT KC_U /* 开机 */
-#define BOOTMAGIC_KEY_ERASE_BOND KC_E /* 删除所有绑定 */
+// #ifndef BOOTMAGIC_KEY_SALT
+// #undef  BOOTMAGIC_KEY_SALT             
+// #define BOOTMAGIC_KEY_SALT          KC_PMNS
+// #endif
+#define BOOTMAGIC_KEY_BOOT          KC_PMNS /* 开机 */
+#define BOOTMAGIC_KEY_ERASE_BOND    KC_E /* 删除所有绑定 */
 
 // 键盘省电参数
 #define SLEEP_SLOW_TIMEOUT 15 // 键盘闲置多久后转入慢速扫描模式 (s)
-#define SLEEP_OFF_TIMEOUT 1200 // 键盘闲置多久后转入自动关机 (s)
+#define SLEEP_OFF_TIMEOUT  1200 // 键盘闲置多久后转入自动关机 (s)
 #define KEYBOARD_SCAN_INTERVAL 1 // 键盘最小时间单位TICK (ms)
 #define KEYBOARD_FAST_SCAN_INTERVAL 10 // 通常模式下，多久扫描一次键盘 (ms)
 #define KEYBOARD_SLOW_SCAN_INTERVAL 100 // 慢速模式下，多久扫描一次键盘 (ms)
