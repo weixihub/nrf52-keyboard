@@ -121,7 +121,7 @@ __attribute__((weak)) void boot_check()
 
     // 自动休眠不需要检测，直接退出
     if (sleep_reason_get())
-        return;
+        return;     
 #ifdef HAS_USB
 #endif
     if (bootcheck_flag_get()) {
