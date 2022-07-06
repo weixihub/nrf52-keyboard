@@ -75,11 +75,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define LED_CAPS 4  //caps led ：5 ； led1、2、3、4：19、20、27、26
 
 // ws2812 RGB 配置
-#define RGB_DI_PIN 29
+#define RGB_DI_PIN 28
 #define RGBLED_NUM 18
 #define DRIVER_LED_TOTAL RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
-#define RGB_PWR_PIN 0 // P-mos
+#define RGB_PWR_PIN 31 // P-mos
 //#define RGB_PWR_PIN_REVERSE 12 // N-mos
 
 #ifdef RGB_MATRIX_ENABLE
@@ -113,8 +113,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // USB UART 传输配置
 #define HAS_USB // 启用与CH554的通信支持
-#define UART_RXD 30 // UART_RX口IO 17
-#define UART_TXD 31 // UART_TX口IO 18
+#define UART_RXD 29 // UART_RX口IO 17
+#define UART_TXD 30 // UART_TX口IO 18
 //#define UART_DET 19 // UART 检测引脚，若此脚被拉低，则说明USB正在工作。若不配置则使用RX口作为检测引脚
 #define UART_BAUDRATE NRF_UART_BAUDRATE_115200 // 通信波特率，请不要修改
 
