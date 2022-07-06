@@ -56,6 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MACRO_BLOCKING_MODE /* 在宏播放时禁用其他按键输入 */
 #define MACRO_STORAGE /* 启用宏存储功能 */
 #define CONFIG_STORAGE /* 启用配置存储功能 */
+#define DCDC_ENABLED //启用DCDC电源模式
 
 // #define DEBUG_SKIP_PWRON_CHECK /*  直接开机而跳过开机条件检测，用于调试 */
 
@@ -75,7 +76,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLED_NUM 7
 #define DRIVER_LED_TOTAL RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
-#define RGB_PWR_PIN 18 // P-mos
+// #define RGB_PWR_PIN 18 // P-mos
 //#define RGB_PWR_PIN_REVERSE 12 // N-mos
 
 //RGB_MATRIX 配置
@@ -91,7 +92,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_MATRIX_STARTUP_HUE 0 // Sets the default hue value, if none has been set
 #define RGB_MATRIX_STARTUP_SAT 255 // Sets the default saturation value, if none has been set
 #define RGB_MATRIX_STARTUP_VAL RGB_MATRIX_MAXIMUM_BRIGHTNESS // Sets the default brightness value, if none has been set
-#define RGB_MATRIX_CENTER { 125, 125 }
+#define RGB_MATRIX_CENTER { 24, 40 }
 // #define RGB_MATRIX_INDICATORS_NUM 0    //大小写锁指示灯
 #define RGB_MATRIX_INDICATORS_HOST 0      //键盘连接状态指示灯
 
@@ -128,7 +129,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_ROWS 2 /* 硬件阵列行数 */
 #define MATRIX_COLS 4 /* 硬件阵列列数 */
 static const uint8_t row_pin_array[MATRIX_ROWS] = {21, 9};
-static const uint8_t column_pin_array[MATRIX_COLS] = {20, 10, 15, 2};
+static const uint8_t column_pin_array[MATRIX_COLS] = {20, 10, 15, 25};
 // 键盘阵列的二极管方向是从COL->ROW
 #define ROW_IN
 /* define if matrix has ghost */

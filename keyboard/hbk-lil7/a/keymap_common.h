@@ -37,10 +37,10 @@ extern const action_t fn_actions[];
  * RON反转 ROP正转（旋钮）
  */
 #define KEYMAP_ENC( 	\
-	K00, R0N, R0P,	 	\
+	K00, K01, K02,	 	\
 	K10, K11, K12, K13	\
 ){ 							    	\
-	{ K00, R0N, R0P,   KC_NO  },	\
+	{ K00, K01, K02,   KC_NO  },	\
 	{ K10, K11, K12,   K13    },	\
 }
 
