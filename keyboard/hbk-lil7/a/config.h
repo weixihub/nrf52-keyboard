@@ -76,7 +76,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLED_NUM 7
 #define DRIVER_LED_TOTAL RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
-// #define RGB_PWR_PIN 18 // P-mos
+#define RGB_PWR_PIN 18 // P-mos
 //#define RGB_PWR_PIN_REVERSE 12 // N-mos
 
 //RGB_MATRIX 配置
